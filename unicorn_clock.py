@@ -49,12 +49,21 @@ def get_pixel_for_time(some_time, column, row):
 
 unicornhat.set_layout(unicornhat.PHAT)
 unicornhat.brightness(0.5)
+
+old_snapshot = None
 while True:
+    time.sleep(0.1)
     snapshot = time.localtime()
+    if snapshot == old_snapshot:
+        # second didn't roll over yet
+        continue
     for column in range(8):
         for row in range(4):
             unicornhat.set_pixel(column, row,
-                                 get_pixel_for_time(snapshot, column, row),
+                                 (get_pixel_for_time(snapshot, column, row) *
+                                  100),
                                  0, 0)
     unicornhat.show()
-    time.sleep(0.1)
+    # debug only
+    print(time.asctime(snapshot))
+    old_snapshot = snapshot
