@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 """Displays a nice clock in various colors."""
 
+import functools
 import operator
 import time
 
@@ -23,14 +24,20 @@ def grab_digit(some_time, field_name, the_op):
 
 # Map of column-number to callable to grab the decimal digit for that column
 COLUMN_TO_DIGIT = {
-    0: partial(grab_digit, field_name="tm_hour", the_op=operator.floordiv),
-    1: partial(grab_digit, field_name="tm_hour", the_op=operator.mod),
+    0: functools.partial(grab_digit, field_name="tm_sec",
+                         the_op=operator.mod),
+    1: functools.partial(grab_digit, field_name="tm_sec",
+                         the_op=operator.floordiv),
     2: returns_zero,
-    3: partial(grab_digit, field_name="tm_min", the_op=operator.floordiv),
-    4: partial(grab_digit, field_name="tm_min", the_op=operator.mod),
+    3: functools.partial(grab_digit, field_name="tm_min",
+                         the_op=operator.mod),
+    4: functools.partial(grab_digit, field_name="tm_min",
+                         the_op=operator.floordiv),
     5: returns_zero,
-    6: partial(grab_digit, field_name="tm_sec", the_op=operator.floordiv),
-    7: partial(grab_digit, field_name="tm_sec", the_op=operator.mod),
+    6: functools.partial(grab_digit, field_name="tm_hour",
+                         the_op=operator.mod),
+    7: functools.partial(grab_digit, field_name="tm_hour",
+                         the_op=operator.floordiv),
 }
 
 def get_pixel_for_time(some_time, column, row):
