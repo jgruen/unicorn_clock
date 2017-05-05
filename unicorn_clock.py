@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-"""Displays a nice clock in various colors."""
+"""Displays a binary clock on the Unicorn pHAT."""
 
 import functools
 import operator
